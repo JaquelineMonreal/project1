@@ -1,0 +1,111 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <iomanip>
+
+using namespace std;
+
+class Person
+{
+public:
+	Person(string name, int popularity = 0, Person* bff = NULL);
+
+	string get_name();
+	void set_name(string name);
+
+	int get_popularity();
+	void set_popularity(int pop);
+
+	string get_bff();
+	void set_bff(Person* bff);
+private:
+	string m_name;
+	int m_popularity;
+	Person* bff;
+};
+
+Person::Person(string name, int popularity, Person* bff)
+{
+	m_name = name;
+	m_popularity = popularity;
+
+
+}
+
+string Person::get_name()
+{
+	return m_name;
+}
+
+void Person::set_name(string name)
+{
+	Person::m_name = name;
+}
+
+int Person::get_popularity()
+{
+	return m_popularity;
+}
+
+void Person::set_popularity(int pop)
+{
+	m_popularity = pop;
+}
+
+string Person::get_bff()
+{
+	return bff->get_name();
+}
+
+void Person::set_bff(Person* bff)
+{
+	Person::bff = bff;
+}
+int main()
+{
+	int	counter = 0;
+
+	char again;
+	vector<Person*> people;
+	do {
+		cout << "Name: ";
+		string name;
+		cin >> name;
+		people.push_back(new Person(name));
+		counter++;
+		cout << "Continue (y/n)?"; cin >> again;
+	} while (again != 'n');
+	int n = counter;
+	cout << "\n";
+	cout << "Enter the names of best friends: "; cout << "\n";
+	for (int i = 0; i < n; i++)
+	{
+		cout << "Best friend of  " << people[i]->get_name() << ": ";
+		string name;
+		cin >> name;
+		for (int j = 0; j < n; j++)
+		{
+			if (people[j]->get_name() == name)
+			{
+				people[j]->set_popularity((people[j]->get_popularity()) + 1);
+				people[i]->set_bff(people[j]);
+			}
+			else people[j]->set_popularity((people[j]->get_popularity()) + 0);
+		}
+	}
+
+	cout << "\n";
+	for (int i = 0; i < n; i++)
+	{
+		cout << people[i]->get_name() << " : " << people[i]->get_bff() << " : " << people[i]->get_popularity() << endl;
+	}
+
+	for (int i = 0; i < n; i++)
+	{
+		delete people[i];
+	}
+
+
+
+	return 0;
+}
